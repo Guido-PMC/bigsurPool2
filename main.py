@@ -246,7 +246,6 @@ def calculateElectricityBill(usuariosPool, powerDraw, valorKhw,paysPostRevShare)
 #VARIABLES
 toTerahash = 1000000000000
 minimumPayout = 0.01
-client = Client(key=KEYBINANCE, secret=SECRETBINANCE)
 
 
 def job():
