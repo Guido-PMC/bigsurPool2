@@ -28,8 +28,7 @@ else:
     BD = "BD1"
 
 print(f"OJO ESTOY EN EL AMBIENTE {os.environ['ENVIRONMENT']}, usando BD: {BD} ")
-KEYBINANCE = os.environ['KEYBINANCE']
-SECRETBINANCE = os.environ['SECRETBINANCE']
+
 minimumPayout = 0.01
 
 def telegram_message(message):
