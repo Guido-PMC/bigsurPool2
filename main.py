@@ -161,9 +161,9 @@ def updateUserMinedToday(usuariosPool, newId):
     except Exception as e:
         bigqueryDate = datetime.utcfromtimestamp(0)
     for pago in reversed(json1["data"]["accountProfits"]):
-        print(f"Fecha ultimo pago {bigqueryDate}")
+        #print(f"Fecha ultimo pago {bigqueryDate}")
         binanceDate = datetime.utcfromtimestamp(int(pago['time']/1000))
-        print(binanceDate.timestamp(), bigqueryDate.timestamp(), binanceDate.day, bigqueryDate.day, binanceDate.month,bigqueryDate.month)
+        #print(binanceDate.timestamp(), bigqueryDate.timestamp(), binanceDate.day, bigqueryDate.day, binanceDate.month,bigqueryDate.month)
         if (binanceDate.timestamp() > (bigqueryDate.timestamp()+82800)):
             print("Binance > BD")
             print(pago)
@@ -206,7 +206,7 @@ def updateGananciasDiarias(usuariosPool, minimumPayout, consumo,paysPostRevShare
         btcCommission = round(paymentAmountBruto * (revShare),5)
         print(f"BTC Commision : {btcCommission}")
         updateUserData(btcCommission,paymentAmount,inmatureBalance,usuariosPool)
-        sendPayment(lastPayId+1, usuariosPool, getUserWallet(usuariosPool), paymentAmount, getBtcValue(), "1111", revShare, btcCommission, paysPostRevShare,inmatureBalance, billDays, startDay, endDay )
+        sendPayment(lastPayId, usuariosPool, getUserWallet(usuariosPool), paymentAmount, getBtcValue(), "1111", revShare, btcCommission, paysPostRevShare,inmatureBalance, billDays, startDay, endDay )
         saveElectricityBill(arsToBtc(electricityBill), "BTC", usuariosPool, getUsdValue(), getBtcValue(), revShare, btcCommission, startDay, endDay)
     elif inmatureBalance < minimumPayout:
         updateInmatureBalance(inmatureBalance, usuariosPool)
