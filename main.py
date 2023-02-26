@@ -219,11 +219,17 @@ def zabbix_push(puid, key, value):
 
 
 def calculateElectricityBill(usuariosPool, powerDraw, valorKhw,paysPostRevShare):
-    lastBillDF = bigQueryRead(f"SELECT * FROM {BD}.cobrosLuz WHERE usuariosPool = '{usuariosPool}' ORDER BY id DESC LIMIT 1")
-    lastBillEndDate = str(pd.to_datetime((lastBillDF["endDay"])).values[0])[:10]
+    try:
+        lastBillDF = bigQueryRead(f"SELECT * FROM {BD}.cobrosLuz WHERE usuariosPool = '{usuariosPool}' ORDER BY id DESC LIMIT 1")
+        lastBillEndDate = str(pd.to_datetime((lastBillDF["endDay"])).values[0])[:10]
+    except Exception as e:
+        #El usuario no tiene cobros, se usa fecha de alta de minero
+        lastBillDF = bigQueryRead(f"SELECT * FROM {BD}.usuarios WHERE usuariosPool = '{usuariosPool}' ORDER BY id DESC LIMIT 1")
+        lastBillEndDate = str(pd.to_datetime((lastBillDF["miningStartDay"])).values[0])[:10]
     lastBillEndDateDT = datetime.strptime(lastBillEndDate, "%Y-%m-%d")
     startDay = lastBillEndDateDT.replace(microsecond=0).timestamp()
     endDay = datetime.now().replace(microsecond=0).timestamp()
+
     if paysPostRevShare == True:
         totalBill = 0
         dias = 0
